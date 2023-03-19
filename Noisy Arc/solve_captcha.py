@@ -31,7 +31,8 @@ def solve(image_file):
     for ctr in contours:
         x, y, w, h = cv2.boundingRect(ctr)
         roi = gray[y:y+h, x:x+w]
-
+        plt.imshow(roi)
+        plt.show()
         # Resize the image to 20x20 and convert to a numpy array
         roi = resize_to_fit(roi, 20, 20)
         roi = np.expand_dims(roi, axis=2)
