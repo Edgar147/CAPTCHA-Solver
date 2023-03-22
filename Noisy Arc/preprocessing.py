@@ -77,7 +77,7 @@ def rotate_bound(open_path,save_path,angle):
 # Expansion
 def dilation(open_path,save_path):
     image = cv.imread(open_path,0)
-    kernel = np.ones((2, 2), np.uint8)
+    kernel = np.ones((3, 3), np.uint8)  # increase kernel size to make dilation more aggressive
     dilation = cv.dilate(image, kernel)
     cv.imwrite(save_path, dilation)
 

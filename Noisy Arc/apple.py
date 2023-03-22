@@ -11,11 +11,6 @@ Deal with apple
 if __name__ == "__main__":
     # The first step, binarization
     start = time.time()
-    picture_path = os.listdir(r"C:/Users/karap/Desktop/XD_text_Captcha_attack-main/image")
-    for filelist in picture_path:
-        open_path = "C:/Users/karap/Desktop/XD_text_Captcha_attack-main/image/" + filelist
-        save_path = "C:/Users/karap/Desktop/XD_text_Captcha_attack-main/image_binary/" + filelist[:-4] + ".png"
-        preprocessing.binary_apple(open_path, save_path)
 
     # The second step, corrosion, make the font outline thicker
     picture_path = os.listdir(r"C:/Users/karap/Desktop/XD_text_Captcha_attack-main/image_binary")

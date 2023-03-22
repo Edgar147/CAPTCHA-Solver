@@ -7,7 +7,9 @@ from imutils import paths
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
+from keras.optimizers import Adam
+from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from helpers import resize_to_fit
 
 # Set the input folder and output model paths
@@ -39,7 +41,7 @@ data = np.array(data, dtype="float32") / 255.0
 labels = np.array(labels)
 
 # Split the data into training and testing sets
-(X_train, X_test, Y_train, Y_test) = train_test_split(data, labels, test_size=0.25, random_state=0)
+X_train, X_test, Y_train, Y_test = train_test_split(data, labels, test_size=0.25, random_state=0)
 
 # Convert the labels from strings to binary vectors
 lb = LabelBinarizer().fit(Y_train)
@@ -56,17 +58,27 @@ model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=(20,
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
-model.add(Dense(128, activation='relu'))
+model.add(Dense(256, activation='relu'))
+model.add(Dropout(0.5))
 model.add(Dense(19, activation='softmax'))
 
+# Define optimizer, loss function and metrics
+optimizer = Adam(learning_rate=0.001)
+loss = "categorical_crossentropy"
+metrics = ["accuracy"]
+
 # Compile the model
-model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=["accuracy"])
+model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
-# Train the model
-model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=32, epochs=15)
-
-# Save the trained model
-
-# Save the trained model
+# Define training callbacks
+early_stop = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights= True)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3)
+history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=32, epochs=30,
+callbacks=[early_stop, reduce_lr])
 model.save(model_filename)
+
+with open('training_history.dat', 'wb') as file_history:
+    pickle.dump(history.history, file_history)

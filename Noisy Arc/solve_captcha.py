@@ -31,15 +31,22 @@ def solve(image_file):
     for ctr in contours:
         x, y, w, h = cv2.boundingRect(ctr)
         roi = gray[y:y+h, x:x+w]
-        plt.imshow(roi)
-        plt.show()
+        # plt.imshow(roi)
+        # plt.show()
+        # Check the percentage of filled pixels in the contour
+        filled_pixels = cv2.countNonZero(roi)
+        total_pixels = roi.shape[0] * roi.shape[1]
+        filled_ratio = filled_pixels / float(total_pixels)
+        if filled_ratio < 0.05:
+            continue  # Ignore contours with less than 5% filled pixels
+
         # Resize the image to 20x20 and convert to a numpy array
         roi = resize_to_fit(roi, 20, 20)
         roi = np.expand_dims(roi, axis=2)
         roi = np.expand_dims(roi, axis=0)
 
         # Make a prediction on the cropped image using the trained model
-        prediction = model.predict(roi)
+        prediction = model.predict(roi,verbose=0)
         letter = lb.inverse_transform(prediction)[0]
         predictions.append(letter)
 

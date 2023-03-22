@@ -3,7 +3,6 @@ import cv2
 
 
 def resize_to_fit(image, width, height):
-    
     (h, w) = image.shape[:2]
 
     if w > h:
