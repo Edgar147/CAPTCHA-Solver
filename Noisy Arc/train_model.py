@@ -13,9 +13,9 @@ from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 from helpers import resize_to_fit
 
 # Set the input folder and output model paths
-input_folder = "C:\\Users\\karap\\Desktop\\M1\\IR\\CAPTCHA-Solver-master\\Noisy Arc\\letter"
-model_filename = "C:\\Users\\karap\\Desktop\\M1\\IR\\CAPTCHA-Solver-master\\Noisy Arc\\captcha_model.hdf5"
-model_labels_filename = "C:\\Users\\karap\\Desktop\\M1\\IR\\CAPTCHA-Solver-master\\Noisy Arc\\model_labels.dat"
+input_folder = "letter"
+model_filename = "captcha_model.hdf5"
+model_labels_filename = "model_labels.dat"
 
 # Initialize the data and labels lists
 data = []
@@ -80,5 +80,4 @@ history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_si
 callbacks=[early_stop, reduce_lr])
 model.save(model_filename)
 
-with open('training_history.dat', 'wb') as file_history:
-    pickle.dump(history.history, file_history)
+

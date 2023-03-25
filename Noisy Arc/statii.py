@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from solve_captcha import solve
 
 # Set the path to the directory containing the images
-image_dir = "C:\\Users\\karap\\Desktop\\M1\\IR\\CAPTCHA-Solver-master\\Noisy Arc\\samples"
+image_dir = "preprocessing_data/image_erosion"
 correct_count = 0
 incorrect_count = 0
 
@@ -73,6 +73,6 @@ fig, ax = plt.subplots()
 ax.bar([x[0] for x in char_accuracy], [x[1] for x in char_accuracy])
 ax.set_xlabel("Caractère")
 ax.set_ylabel("Taux de Precision")
-ax.set_title("Taux de Precision pour chaque caractèrr")
+ax.set_title("Taux de Precision pour chaque caractère")
 #Il faut verifier le % des incorrects produits par n/m et 7
 plt.show()
