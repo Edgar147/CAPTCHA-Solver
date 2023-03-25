@@ -16,7 +16,10 @@ from helpers import resize_to_fit
 input_folder = "letter"
 model_filename = "captcha_model.hdf5"
 model_labels_filename = "model_labels.dat"
-
+if os.path.exists(model_filename):
+    os.remove(model_filename)
+if os.path.exists(model_labels_filename):
+    os.remove(model_labels_filename)
 # Initialize the data and labels lists
 data = []
 labels = []

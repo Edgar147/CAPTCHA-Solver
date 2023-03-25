@@ -5,6 +5,10 @@ import time
 
 
 if __name__ == "__main__":
+
+    exec(open('preprocessing_data/reset.py').read())
+    print("Remise à zéro des données...")
+
     # The first step, binarization
     start = time.time()
     #Binarsation
@@ -48,3 +52,13 @@ if __name__ == "__main__":
 
     time = time.time() - start
     print("time:",time)
+
+    os.chdir('preprocessing_data')
+    print("Creation des dossiers...")
+    exec(open('folders.py').read())
+    os.chdir('..')
+    print("Cropping des lettres...")
+    exec(open('crop.py').read())
+    os.chdir('..')
+    exec(open('removepng.py').read())
+    print("Le pré-traitement est terminé! ")

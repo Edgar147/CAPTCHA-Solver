@@ -10,9 +10,9 @@ from PIL import Image
 from matplotlib import pyplot as plt
 
 
-model_filename = "C:\\Users\\karap\\Desktop\\M1\\IR\\CAPTCHA-Solver-master\\Noisy Arc\\captcha_model.hdf5"
-model_labels_filename = "C:\\Users\\karap\\Desktop\\M1\\IR\\CAPTCHA-Solver-master\\Noisy Arc\\model_labels.dat"
-input_folder = "C:\\Users\\karap\\Desktop\\M1\\IR\\CAPTCHA-Solver-master\\Noisy Arc\\samples"
+model_filename = "captcha_model.hdf5"
+model_labels_filename = "model_labels.dat"
+input_folder = "preprocessing_data/image_erosion"
 
 with open(model_labels_filename, "rb") as f:
     lb = pickle.load(f)
