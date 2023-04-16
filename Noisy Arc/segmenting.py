@@ -1,7 +1,7 @@
 import cv2 as cv
 import os
 import numpy as np
-
+from matplotlib import pyplot as plt
 """
 Segementation related Integration
 """
@@ -11,7 +11,7 @@ Segementation related Integration
 # extend: The number of pixels extended of each character when splitting the image by vertical projection
 
 # Segment by vertical projection
-def getVProjection(open_path,save_path,character,edge,extend):
+def getVProjection(open_path,save_path,character,edge,extend,solve=False):
     Image = cv.imread(open_path,0)
     vProjection = np.zeros(Image.shape,np.uint8)
     (height,width) = Image.shape
@@ -49,8 +49,23 @@ def getVProjection(open_path,save_path,character,edge,extend):
         else:
             end = endIndex
         cropped = Image[0:height, start:end]
-        save_path1 = save_path + "_" + character[i] + ".png"
+
+
+
+
+
+        if(solve):
+            # plt.imshow(cropped)
+            # plt.show()
+            save_path1 = save_path + str(i) + ".png"
+        else:
+            save_path1 = save_path + "_" + character[i] + ".png"
+
+
+
         cv.imwrite(save_path1, cropped)
+
+
     os.remove(save_path_projection)
 
 # Segment by horizontal projection

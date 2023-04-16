@@ -58,15 +58,19 @@ with open(model_labels_filename, "wb") as f:
 # Build the model architecture
 model = Sequential()
 model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=(20, 20, 1)))
+model.add(Conv2D(32, (3, 3), padding='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
 model.add(Conv2D(128, (3, 3), padding='same', activation='relu'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 model.add(Flatten())
 model.add(Dense(256, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(19, activation='softmax'))
+
 
 # Define optimizer, loss function and metrics
 optimizer = Adam(learning_rate=0.001)
@@ -77,9 +81,9 @@ metrics = ["accuracy"]
 model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
 # Define training callbacks
-early_stop = EarlyStopping(monitor='val_loss', patience=5, restore_best_weights= True)
-reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.2, patience=3)
-history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=32, epochs=30,
+early_stop = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights= True)
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.15, patience=3)
+history = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), batch_size=32, epochs=40,
 callbacks=[early_stop, reduce_lr])
 model.save(model_filename)
 
